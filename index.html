@@ -29,12 +29,7 @@
             const analytics = getAnalytics(app);
         </script> 
 
-    <title>오늘의 어머니교훈</title>
     <style>
-        h1 {
-            font-size: 2em;
-            color: #333;
-        }
         body {
             display: flex;
             justify-content: center;
@@ -65,18 +60,11 @@
             0% { background-position: 200%; color: transparent; }
             100% { background-position: -200%; color: black; }
         }
-        
+
     .title {
             position: absolute;
             top: 0%;
-            color: rgba(0, 0, 0, 0.5);
-    }
-	.watermark {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 0.8em;
-            color: rgba(0, 0, 0, 0.5); /* 투명도 조절 */
+            color: black;
     }
     .visitor-count {
             position: absolute;
@@ -84,7 +72,14 @@
             right: 20px;
             font-size: 1em;
             color: rgba(0, 0, 0, 0.5);
-        }
+     }
+	.watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.8em;
+            color: rgba(0, 0, 0, 0.5); /* 투명도 조절 */
+    }
     </style>
 </head>
 
@@ -92,14 +87,16 @@
 <body>
     <div class="title">
         <h1 id="title">오늘의 어머니교훈</div>
-    </div>
 
     <div class="box">
         <h2 id="random-quote">어머니교훈 로드 중...</h2>
+
+    <div class="visitor-count" id="visitor-count">
+        오늘의 방문자 수: <span id="visitor-count">불러오는 중...</span>
     </div>
-    
-    <div class="watermark">© 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
-    <div class="visitor-count" id="visitor-count">오늘의 방문자 수: (구현중)</div>
+
+    <div class="watermark">
+        © 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
 
     <script>
         const quotes = [
@@ -124,15 +121,13 @@
         
         // 문구가 로딩된 후 애니메이션 효과 적용
         quoteElement.style.animation = "rainbowMove 1s ease-in-out";
-        delay(0.5);
-        quoteElement.style.animation = "whiteMove 10s ease-in-out";
 
         //Firebase Counts
         const db = firebase.database();
 
         //Firebase 방문자수 카운트
         function updateVisitorCount() {
-            const visitorCountRef = db.ref('visitorCount');
+            const visitorCountRef = db.ref('visitor-Count');
             visitorCountRef.transaction(currentCount => {
             if (currentCount === null) {
                 return 1;
