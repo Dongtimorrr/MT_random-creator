@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>어머니교훈 뽑기</title>
+    <title>오늘의 어머니교훈</title>
     <style>
         body {
             display: flex;
@@ -41,14 +41,26 @@
             right: 20px;
             font-size: 1em;
             color: rgba(0, 0, 0, 0.5); /* 투명도 조절 */
+    }
+    .visitor-count {
+            position: absolute;
+            bottom: 20px;
+            right: 560px;
+            font-size: 1em;
+            color: rgba(0, 0, 0, 0.7);
+        }
     </style>
+
+    
 </head>
+
 <body>
     <div class="box">
         <h1 id="random-quote">어머니교훈 로드 중...</h1>
     </div>
 
     <div class="watermark">© 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
+    <div class="visitor-count">일일 방문자 수: <span id="visitor-count">0</span></div>
 
     <script>
         const quotes = [
@@ -73,6 +85,23 @@
         
         // 문구가 로딩된 후 애니메이션 효과 적용
         quoteElement.style.animation = "rainbowMove 1s ease-in-out";
+
+        // 서버에서 방문자 수 가져오기
+        fetch('/visit')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('visitor-count').textContent = data.visitorCount;
+            })
+            .catch(error => {
+                console.error('Error fetching visitor count:', error);
+            });
+
+            // 방문자 수를 로드하고 표시
+        fetch('/visit-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('visitor-count').textContent = data.totalVisitors;
+            });
     </script>
 </body>
 </html>
