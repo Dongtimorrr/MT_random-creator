@@ -3,8 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module">
+            // Firebase 설정 정보
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+        
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+            apiKey: "AIzaSyDtzV1wTD4ySYIti35ErCwKF1hbb306WsY",
+            authDomain: "mt-random.firebaseapp.com",
+            databaseURL: "https://mt-random-default-rtdb.firebaseio.com",
+            projectId: "mt-random",
+            storageBucket: "mt-random.appspot.com",
+            messagingSenderId: "737836551671",
+            appId: "1:737836551671:web:065486590d1365665fb2f2",
+            measurementId: "G-X2WSR28JKK"
+            };
+        
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+        </script> 
+
     <title>오늘의 어머니교훈</title>
     <style>
+        h1 {
+            font-size: 2em;
+            color: #333;
+
+        }
         body {
             display: flex;
             justify-content: center;
@@ -22,19 +53,25 @@
             text-align: center;
             width: 600px;
         }
-        h1 {
+        h2 {
             font-size: 1.5em;
             color: #333;
-	background: linear-gradient(90deg, 
+	        background: linear-gradient(90deg, 
                 red, orange, yellow, green, blue, indigo, violet);
             background-size: 200%;
             -webkit-background-clip: text;
-            animation: rainbowMove 1s ease-in-out forwards;
+            animation: rainbowMove 1s ease-in-out infinite;
         }
         @keyframes rainbowMove {
             0% { background-position: 200%; color: transparent; }
             100% { background-position: -200%; color: black; }
         }
+        
+    .title {
+            position: absolute;
+            top: 0%;
+            color: rgba(0, 0, 0, 0.5);
+    }
 	.watermark {
             position: absolute;
             bottom: 20px;
@@ -52,44 +89,18 @@
     </style>
 </head>
 
-<script type="module"> //방문자수 카운트 (firebase)
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyDtzV1wTD4ySYIti35ErCwKF1hbb306WsY",
-      authDomain: "mt-random.firebaseapp.com",
-      databaseURL: "https://mt-random-default-rtdb.firebaseio.com",
-      projectId: "mt-random",
-      storageBucket: "mt-random.appspot.com",
-      messagingSenderId: "737836551671",
-      appId: "1:737836551671:web:065486590d1365665fb2f2",
-      measurementId: "G-X2WSR28JKK"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
 
 <body>
-    <div class="box">
-        <h1 id="random-quote">어머니교훈 로드 중...</h1>
+    <div class="title">
+        <h1 id="title">오늘의 어머니교훈</div>
     </div>
 
-    <div class="watermark">© 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
-    <div id="visitor-count"
-        style="text-align: absolute;
-        right: 20px;
-        font-size: 1em;
-        margin-bottom: 20px;">Loading...</div>
-        
+    <div class="box">
+        <h2 id="random-quote">어머니교훈 로드 중...</h2>
     </div>
+    
+    <div class="watermark">© 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
+    <div class="visitor-count" id="visitor-count"></div>
 
     <script>
         const quotes = [
@@ -114,6 +125,8 @@
         
         // 문구가 로딩된 후 애니메이션 효과 적용
         quoteElement.style.animation = "rainbowMove 1s ease-in-out";
+        delay(0.5);
+        quoteElement.style.animation = "whiteMove 10s ease-in-out";
 
         //Firebase Counts
         const db = firebase.database();
@@ -133,7 +146,6 @@
             }
             });
         }
-
         updateVisitorCount();
     </script>
 </body>
