@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어머니교훈 뽑기</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .box {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 600px;
+        }
+        h1 {
+            font-size: 1.5em;
+            color: #333;
+	background: linear-gradient(90deg, 
+                red, orange, yellow, green, blue, indigo, violet);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            animation: rainbowMove 1s ease-in-out forwards;
+        }
+        @keyframes rainbowMove {
+            0% { background-position: 200%; color: transparent; }
+            100% { background-position: -200%; color: black; }
+        }
+	.watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1em;
+            color: rgba(0, 0, 0, 0.5); /* 투명도 조절 */
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1 id="random-quote">어머니교훈 로드 중...</h1>
+    </div>
+
+    <div class="watermark">© 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
+
+    <script>
+        const quotes = [
+            "01. 하나님께서 늘 사랑을 주신 것처럼 주는 사랑이 받는 사랑보다 더 복이 있습니다.",
+            "02. 하나님께 영광을 돌리면 그 영광은 결국 자신의 것이 됩니다.",
+            "03. 아름답게 보는 마음은 미움이 없고 온전한 사랑을 이루게 합니다.",
+            "04. 아브라함이 조카 롯에게 좋은 것을 양보했을 때 더 좋은 것으로 축복을 받았듯이 우리도 형제자매에게 좋은 것을 양보하면 더 좋은 축복을 받게 됩니다.",
+            "05. 높은 마음이란 섭섭하게 느끼는 마음입니다.",
+            "06. 다른 사람들이 일하지 않는다고 불평하지 말고 자신의 할 일에만 충성되게 합시다. 주인된 마음으로 일하면 힘들지 않고 즐거운 마음으로 일할 수 있습니다.",
+            "07. 불만이 가득차면 교만이 생깁니다. 늘 감사하는 마음으로 하나님을 섬기면 불만과 교만이 없어지고 겸손한 마음을 갖게 됩니다.",
+            "08. 형제자매를 칭찬하면 내게 칭찬이 돌아옵니다.",
+            "09. 바다가 모든 더러운 것을 받아 정화시키듯이 모든 형제자매들의 허물까지도 감싸줄 수 있는 바다같이 넓은 마음이 진정 아름다운 마음입니다.",
+            "10. 어린 양의 인도를 받기를 원하는 자는 어린 양보다 더 작은 양이 되어야 합니다.",
+            "11. 희생은 큰 그릇이 되기 위해 요구되는 과정입니다.",
+            "12. 하나님은 섬기러 이 땅에 오셨습니다. 섬김 받기를 원하지 않고 서로 섬기는 마음이 하나님께서 기뻐하시는 마음입니다.",
+            "13. 오늘의 고통을 참고 인내해야 함은 하늘나라가 내게 있기 때문입니다."
+        ];
+
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const quoteElement = document.getElementById('random-quote');
+        quoteElement.textContent = quotes[randomIndex];
+        
+        // 문구가 로딩된 후 애니메이션 효과 적용
+        quoteElement.style.animation = "rainbowMove 1s ease-in-out";
+    </script>
+</body>
+</html>
