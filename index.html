@@ -5,28 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="module">
             // Firebase 설정 정보
-            // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
             import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
-        
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            import { getDatabase, ref, transaction } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+
             const firebaseConfig = {
             apiKey: "AIzaSyDtzV1wTD4ySYIti35ErCwKF1hbb306WsY",
             authDomain: "mt-random.firebaseapp.com",
             databaseURL: "https://mt-random-default-rtdb.firebaseio.com",
-            projectId: "MT-random",
+            projectId: "mt-random",
             storageBucket: "mt-random.appspot.com",
             messagingSenderId: "737836551671",
             appId: "1:737836551671:web:065486590d1365665fb2f2",
             measurementId: "G-X2WSR28JKK"
             };
         
-            // Initialize Firebase
+            // Firebase 초기화
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
+            const database = getDatabase(app);
         </script> 
 
     <style>
@@ -111,8 +108,8 @@
             "09. 바다가 모든 더러운 것을 받아 정화시키듯이 모든 형제자매들의 허물까지도 감싸줄 수 있는 바다같이 넓은 마음이 진정 아름다운 마음입니다.",
             "10. 어린 양의 인도를 받기를 원하는 자는 어린 양보다 더 작은 양이 되어야 합니다.",
             "11. 희생은 큰 그릇이 되기 위해 요구되는 과정입니다.",
-            "12. 하나님은 섬기러 이 땅에 오셨습니다. 섬김 받기를 원하지 않고 서로 섬기는 마음이 하나님께서 기뻐하시는 마음입니다.",
-            "13. 오늘의 고통을 참고 인내해야 함은 하늘나라가 내게 있기 때문입니다."
+            "12. 오늘의 고통을 참고 인내해야 함은 하늘나라가 내게 있기 때문입니다.",
+            "13. 하나님은 섬기러 이 땅에 오셨습니다. 섬김 받기를 원하지 않고 서로 섬기는 마음이 하나님께서 기뻐하시는 마음입니다."
         ];
 
         const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -121,26 +118,34 @@
         
         // 문구가 로딩된 후 애니메이션 효과 적용
         quoteElement.style.animation = "rainbowMove 1s ease-in-out";
+    </script>
 
-        //Firebase Counts
+<!--Firebase 카운트 설정-->
+    <script type="module">
+        //Firebase Counts DB
+        import { getDatabase } from "firebase/database";
         const db = firebase.database();
 
-        //Firebase 방문자수 카운트
+       // 방문자 수 카운트 함수
         function updateVisitorCount() {
-            const visitorCountRef = db.ref('visitor-Count');
-            visitorCountRef.transaction(currentCount => {
-            if (currentCount === null) {
-                return 1;
-            } else {
-                return currentCount + 1;
-            }
-            }, (error, committed, snapshot) => {
-            if (committed) {
-                document.getElementById('visitor-count').innerText = snapshot.val();
-            }
+            const visitorCountRef = ref(database, 'visitor-Count');
+            transaction(visitorCountRef, (currentCount) => {
+                if (currentCount === null) {
+                    return 1;
+                } else {
+                    return currentCount + 1;
+                }
+            }).then((result) => {
+                if (result.committed) {
+                    document.getElementById('visitor-count').innerText = result.snapshot.val();
+                }
+            }).catch((error) => {
+                console.error("Error updating visitor count: ", error);
             });
         }
-        updateVisitorCount();
+
+        // 페이지 로드 시 방문자 수 업데이트
+        document.addEventListener('DOMContentLoaded', updateVisitorCount);
     </script>
 </body>
 </html>
