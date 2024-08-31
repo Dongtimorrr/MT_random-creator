@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <script src="./js/html2canvas.js"></script> -->
         <script type="module">
             // Firebase 설정 정보
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -51,32 +52,63 @@
                 red, orange, yellow, green, blue, indigo, violet);
             background-size: 200%;
             -webkit-background-clip: text;
-            animation: rainbowMove 1s ease-in-out infinite;
+            animation: rainbowMove 1s ease-in-out;
         }
         @keyframes rainbowMove {
             0% { background-position: 200%; color: transparent; }
             100% { background-position: -200%; color: black; }
         }
 
-    .title {
+        .title {
             position: absolute;
             top: 0%;
-            color: black;
-    }
-    .visitor-count {
+            color: rgb(60, 60, 60);
+        }
+        .visitor-count {
             position: absolute;
             bottom: 40px;
             right: 20px;
             font-size: 1em;
             color: rgba(0, 0, 0, 0.5);
-     }
-	.watermark {
+        }
+        .watermark {
             position: absolute;
             bottom: 20px;
             right: 20px;
             font-size: 0.8em;
             color: rgba(0, 0, 0, 0.5); /* 투명도 조절 */
-    }
+        }
+        /* .downloadBtn {
+            position: fixed;
+            align-items: center;
+            bottom: 20px;
+            text-align: center;
+        } */
+        .mymemo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            height: 40px;
+        }
+        .mypage {
+            position: fixed;
+            bottom: 20px;
+            left: 80px;
+            height: 40px;
+        }
+        .ytlink {
+            position: fixed;
+            bottom: 20px;
+            left: 140px;
+            height: 40px;
+        }
+        .shortcut {
+            color: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            bottom: 30px;
+            left: 20px;
+            height: 40px;
+        }
     </style>
 </head>
 
@@ -85,15 +117,29 @@
     <div class="title">
         <h1 id="title">오늘의 어머니교훈</div>
 
-    <div class="box">
-        <h2 id="random-quote">어머니교훈 로드 중...</h2>
+    <div class="box" id="capture">
+        <p><h2 id="random-quote">어머니교훈 로드 중...</h2></p>
 
-    <div class="visitor-count" id="visitor-count">
+    <div class="visitor-count">
         오늘의 방문자 수: <span id="visitor-count">불러오는 중...</span>
     </div>
-
+    <!-- 워터마크 -->
     <div class="watermark">
-        © 2024 화성봉담 이진우</div> <!-- 워터마크 추가 -->
+        © 2024 화성봉담 이진우</div>
+    
+    <!-- <div class="downloadBtn"><button class="downloadBtn" id="download_Btn">이미지로 다운로드</button></div> -->
+    
+    <h4 class="shortcut">바로가기</h4>
+    
+    <div class="ytlink"><input class="ytlink" id="yt" type="image"
+            src="./assets/yt_logo.png"
+            onClick="window.open('https://youtu.be/10RNTEJueCk?si=Q6QIsHtNtA70LOiV')"></div>
+
+    <div class="mypage"><a href="WATVMYPAGE://open">
+                <input class="mypage" id="mypage" type="image" src="./assets/mypage.png"></a></div>
+    
+    <div class="mymemo"><a href="mymemo://open">
+            <input class="mymemo" id="mymemo" type="image" src="./assets/mymemo.png"></a></div>
 
     <script>
         const quotes = [
@@ -146,6 +192,28 @@
 
         // 페이지 로드 시 방문자 수 업데이트
         document.addEventListener('DOMContentLoaded', updateVisitorCount);
+    </script>
+    <script>
+        let captureDiv = document.getElementById('capture');
+        let downloadButton = document.getElementById('download_Btn');
+
+        downloadButton.addEventListener('click', () => {
+            html2canvas(captureDiv).then(canvas => {
+            saveImg(canvas.toDataURL('image/jpg'), 'image.jpg');
+            });
+        });
+
+        const saveImg = (uri, filename) => {
+            let link = document.createElement('a');
+
+            document.body.appendChild(link);
+
+            link.href = uri;
+            link.download = filename;
+            link.click();
+
+            document.body.removeChild(link);
+        };
     </script>
 </body>
 </html>
